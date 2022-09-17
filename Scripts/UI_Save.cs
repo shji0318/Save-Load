@@ -46,19 +46,6 @@ public class UI_Save : UI_Base
         }
     }
 
-    public void UpdateData()
-    {
-        for (int i = 0; i < SaveDataManager.Instance.ExistData.Length; i++)
-        {
-            if (SaveDataManager.Instance.ExistData[i] != null)
-            {
-                SaveData saveData = SaveDataManager.Instance.ExistData[i];
-                Get<Text>(i).text = $"던전 레벨 : {saveData._dungeonLevel}\n 획득 골드 : {saveData._money} HP : {saveData._heart}";
-            }           
-        }
-    }
-
-
     public void Save()
     {
         string path = Path.Combine(Application.dataPath, $"{EventSystem.current.currentSelectedGameObject.name}.json");
