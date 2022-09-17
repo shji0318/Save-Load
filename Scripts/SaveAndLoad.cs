@@ -13,7 +13,7 @@ public static class SaveAndLoad
         saveData._hasWeapons = player.hasWeapons;
         saveData._hasWeaponValue = player.hasWeaponValue;
         saveData._heart = player.heart;
-        saveData._money = player.heart;
+        saveData._money = player.money;
         saveData._items = player.inventory.items;
 
         string json = JsonUtility.ToJson(saveData,true);
