@@ -27,14 +27,39 @@
 ${\textsf{\color\{red}Ctrl + 클릭을 통해 새창열기로 쉽게 코드를 확인하실 수 있습니다.}}$
 
 
-- [**InvenItem.cs**](https://github.com/shji0318/Inventory/blob/main/InvenItem.cs)
-  - 아이템에 대한 정보와 인벤토리 창에서 작용할 Use함수를 포함하고 있는 스크립트
-  - 무기에 대한 장착 및 교체 부분 (Use() 부분)
-  - player 정보와 image 정보를 초기화해주는 부분 (Init() 부분)
- 
+- [**SaveDataManager.cs**](https://github.com/shji0318/Save-Load/blob/main/Scripts/SaveDataManager.cs)
+  - 싱글톤 디자인 패턴 사용
+  - 로컬 경로에 파일이 존재하는지 확인 후, 존재한다면 저장하는 업무를 하는 스크립트
+  - Save할 경우, 새로 저장한 파일도 필요할 때 업데이트 해주기 위해서 ,Init() 함수를 따로 구현
 
  
-- [**SlotDragEvent.cs**](https://github.com/shji0318/Inventory/blob/main/SlotDragEvent.cs)
-  - Drag & Drop 발생 시, Drag를 시작한 Slot의 정보 저장과 Slot간에 정보 변경 작업을 위한 스크립트
-    - Drag를 시작하는 오브젝트와 Drop이 되는 곳에 오브젝트가 다르기에 정보를 저장해 놓기 위한 스크립트
-  - DragSlot 과 DropSlot에 정보를 통해 정보 변경 작업을 하는 함수 (ChangeSlotItem (Slot) 부분) 
+- [**SaveAndLoad.cs**](https://github.com/shji0318/Save-Load/blob/main/Scripts/SaveAndLoad.cs)
+  - 저장과 불러오기를 static으로 구현해놓은 스크립트
+  - 위치, 던전 레벨, 착용중인 무기와 값, 체력, 돈, 인벤토리를 저장하며, 직렬화를 통해 json파일로 로컬에 저장하는 함수 (Save() 부분)
+  - 로컬에 저장되어 있는 json 파일들을 역직렬화를 통해 SaveData class 형식으로 불러온 후 반환 하는 함수         (Load() 부분)
+  - Player 오브젝트와 SaveData를 받아 정보를 입력하는 함수 (InLoadData() 부분)
+
+ 
+- [**SaveData.cs**](https://github.com/shji0318/Save-Load/blob/main/Scripts/SaveData.cs)
+  - 저장될 변수를 정의해 놓은 클래스
+  - json 형식으로 저장하기 위해 직렬화 선언
+
+ 
+- [**UI_Base.cs**](https://github.com/shji0318/Save-Load/blob/main/Scripts/UI_Base.cs)
+  - 각종 UI 오브젝트에 사용하기 위해 정의한 스크립트
+  - Bind를 통해 하위에 있는 오브젝트들을 미리 Dictionary에 저장해 놓고 Get을 통해 사용하기 위함
+
+ 
+- [**UI_Save.cs**](https://github.com/shji0318/Save-Load/blob/main/Scripts/UI_Save.cs)
+  - Player에게 제공되는 저장 UI를 관리하는 스크립트
+  - UI_Base를 상속, Bind 할 오브젝트들의 이름을 타입 별로 Enum으로 열거 후, Dictionary에 저장하여 사용
+  - UI에서 SaveData 존재하는 슬롯만 슬롯 정보를 변경하며, 슬 onClick Event 할당 (Init() 부분)
+  - path 경로에 파일을 저장한 후, 초기화 및 Event 할당 (Save() 부분)
+ 
+
+- [**UI_Load.cs**](https://github.com/shji0318/Save-Load/blob/main/Scripts/UI_Load.cs)
+  - Main Scene에서 Player에게 제공되는 UI 스크립트
+  - UI_Base를 상속
+  - UI_Save와 마찬가지로 사용할 Object를 Bind, Get 하여 사용하는 방식
+  - 로컬 경로에 SaveData 파일이 존재하는 지 확인 후, 존재한다면 onClick Event를 할당
+  - onClick Event가 발생한 버튼 오브젝트를 받아와 그와 일치하는 SaveData 파일을 InSaveData에 저장한 후 VillageScene으로 넘어감 (LoadVillageScene() 부분)
